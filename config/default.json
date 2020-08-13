@@ -1,3 +1,4 @@
 {
-  "seasonalUrl": "https://myanimelist.net/anime/season"
+  "seasonalUrl": "https://myanimelist.net/anime/season",
+  "db": "localhost/open-weeb-repo"
 }
