@@ -3,6 +3,7 @@ import {App} from "./app";
 import {CronJob} from "cron";
 import debug from 'debug';
 import {IStartArgs} from 'app.args'
+import db from "./commons/db";
 
 const log = debug('tempest:main');
 
@@ -25,7 +26,7 @@ function start(argv: IStartArgs) {
     log('creating cronjob');
     new CronJob({
         cronTime: argv.crontime,
-        onTick: ()=>once(),
+        onTick: () => once(),
         runOnInit: argv.runOninit,
         start: true
     });
@@ -35,10 +36,16 @@ function once() {
     log('Start process');
     const app = new App();
     return app.start()
-        .then(()=>{
-            console.log((new Date()).toISOString()+'::Process Done');
+        .then(() => {
+            console.log((new Date()).toISOString() + '::Process Done');
         }).catch(err => {
-            console.error((new Date()).toISOString()+'::Process Error');
+            console.error((new Date()).toISOString() + '::Process Error');
             console.error(err);
+        }).finally(() => {
+            if (db._state !== 'closed') {
+                return db.close();
+            } else {
+                return;
+            }
         });
 }
