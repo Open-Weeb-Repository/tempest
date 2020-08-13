@@ -2,6 +2,7 @@ import yargs from "yargs";
 import {App} from "./app";
 import {CronJob} from "cron";
 import debug from 'debug';
+import {IStartArgs} from 'app.args'
 
 const log = debug('tempest:main');
 
@@ -19,13 +20,6 @@ yargs
     .command('once', 'Start the scrapper only once', () => {
     }, once)
     .argv;
-
-interface IBaseArgs{}
-
-interface IStartArgs extends IBaseArgs{
-    crontime: string,
-    runOninit?: boolean
-}
 
 function start(argv: IStartArgs) {
     log('creating cronjob');
