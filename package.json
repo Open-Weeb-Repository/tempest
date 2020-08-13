@@ -1,0 +1,22 @@
+{
+  "name": "tempest",
+  "version": "0.0.1",
+  "description": "Myanimelist scrapper service for open-weeb-repository",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon -w ./src src/index.ts",
+    "build": "tsc",
+    "start": "node dist"
+  },
+  "keywords": [],
+  "author": "Bayu Setiawan",
+  "license": "ISC",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^14.0.27",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  }
+}
