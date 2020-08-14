@@ -8,6 +8,7 @@ import seriesRepo from "./repository/series";
 import chunkProcess from "./helpers/chunk-process";
 import projectJobsRepo from "./repository/project-jobs";
 import {SearchParam} from "project-jobs.d.ts";
+import projectProviderRepo from "./repository/project-providers";
 
 const log = debug('tempest:app');
 const logProcess = debug('tempest:app:process');
@@ -31,6 +32,7 @@ export class App {
         const seasonalAnimes = await this.getSeasonalAnime();
         log('Processing %d seasonal anime', seasonalAnimes.length);
         await chunkProcess<MyAnimeList.IAnimeListItem>(seasonalAnimes, this.processAnime, this.nProcessChunk);
+        projectProviderRepo.clearTempProvider();
     }
 
     async getSeasonalAnime(): Promise<MyAnimeList.IAnimeListItem[]> {
@@ -54,8 +56,9 @@ export class App {
                 ...animeDetail.title.synonyms,
                 animeDetail.title.titleJp
             ];
-            await projectJobsRepo.createJobs(malId, animeDetail.malType, searchParam);
-            logProcess("anime-%s: active-project-parse job created!", anime.malUrl);
+            const providers = await projectProviderRepo.getProviderLazy('anime');
+            await projectJobsRepo.createJobs(providers, malId, animeDetail.malType, searchParam);
+            logProcess("anime-%s: %d active-project-parse job created!", providers.length,anime.malUrl);
         }
     }
 

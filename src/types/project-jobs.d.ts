@@ -1,5 +1,5 @@
 export interface IProjectJob {
-    type: string;
+    provider: string;
     malId: string;
     n_fail: number;
     n_done: number;
