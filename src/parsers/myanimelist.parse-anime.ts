@@ -63,7 +63,7 @@ sidebarParser["Type:"] = (value, out) => {
 }
 
 sidebarParser["Episodes:"] = (value, out) => {
-    out.episodes = parseInt(value, 10);
+    out.episodes = value === 'Unknown' ? null : parseInt(value, 10);
 }
 
 sidebarParser["Premiered:"] = (value, out) => {
