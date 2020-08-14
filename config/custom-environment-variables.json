@@ -1,3 +1,4 @@
 {
-  "db": "DB_CONN"
+  "db": "DB_CONN",
+  "processChunkSize": "APP_NPROCESS_CHUNK"
 }

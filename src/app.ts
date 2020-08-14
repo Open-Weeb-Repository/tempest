@@ -18,7 +18,7 @@ export class App {
     private readonly nProcessChunk: number;
     constructor(options: IAppOption = {}) {
         log('Creating app instance');
-        this.nProcessChunk = options.nProcessChunk || 4;
+        this.nProcessChunk = options.nProcessChunk || config.get<number>('processChunkSize');
         if (this.nProcessChunk < 1){
             throw new Error('Number of process chunk must be larger than 0');
         }
@@ -27,7 +27,7 @@ export class App {
     async start(){
         log('Getting seasonal animes');
         const seasonalAnimes = await this.getSeasonalAnime();
-        log('Processing all seasonal anime');
+        log('Processing %d seasonal anime', seasonalAnimes.length);
         await chunkProcess<MyAnimeList.IAnimeListItem>(seasonalAnimes, this.processAnime, this.nProcessChunk);
     }
 
@@ -38,13 +38,15 @@ export class App {
     }
 
     async processAnime(anime: MyAnimeList.IAnimeListItem){
-        logProcess("Get existing anime series data");
+        logProcess("anime-%s: processing started", anime.malId);
         const animeDetail = await App.getAnimeData(anime);
+        logProcess("anime-%s: Retreived from provider", anime.malId);
         /* save or create new */
         const result = await seriesRepo.updateOrCreate(animeDetail) as any; // monk typing not match the return value
         if (result.upserted) {
             /* new document created, add to jobs */
-            console.log('upserted');
+            logProcess("anime-%s: Upserted to db", anime.malId);
+            logProcess("anime-%s: active-project-parse job created!", anime.malId);
         }
     }
 

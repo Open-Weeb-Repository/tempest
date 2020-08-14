@@ -1,4 +1,5 @@
 {
   "seasonalUrl": "https://myanimelist.net/anime/season",
-  "db": "localhost/open-weeb-repo"
+  "db": "localhost/open-weeb-repo",
+  "processChunkSize": 4
 }
