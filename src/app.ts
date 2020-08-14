@@ -1,6 +1,6 @@
 import debug from "debug";
 import config from "config";
-import getpage from "./commons/getpage";
+import getpage from "./helpers/getpage";
 import * as MyAnimeList from 'myanimelist';
 import parseSeasonalAnimePage from './parsers/myanimelist.parse-seasonal-anime-page'
 
