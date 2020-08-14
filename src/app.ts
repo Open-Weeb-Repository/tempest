@@ -58,7 +58,7 @@ export class App {
             ];
             const providers = await projectProviderRepo.getProviderLazy('anime');
             await projectJobsRepo.createJobs(providers, malId, animeDetail.malType, searchParam);
-            logProcess("anime-%s: %d active-project-parse job created!", providers.length,anime.malUrl);
+            logProcess("anime-%s: %d active-project-parse job created!", anime.malUrl, providers.length);
         }
     }
 
