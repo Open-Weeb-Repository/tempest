@@ -6,8 +6,7 @@ export default function ($: CheerioStatic): IAnimeListItem[] {
             const $this = $(this);
             const titleLink = $this.find('.title-text a').attr("href");
             return {
-                malUrl: titleLink,
-                malId: titleLink.split("/")[4]
+                malUrl: titleLink
             }
         }).get();
 }
