@@ -2,6 +2,7 @@ import yargs from "yargs";
 import {App} from "./app";
 import {CronJob} from "cron";
 import debug from 'debug';
+import config from "config";
 import {IStartArgs} from 'app.args.d.ts'
 import db from "./commons/db";
 
@@ -11,7 +12,7 @@ yargs
     .command('start [crontime]', 'Start the scrapper using on cron format', yargs => {
         yargs.positional('crontime', {
             describe: 'Cron format (* * * * * *)',
-            default: '0 0 0 * * 0'
+            default: config.get("defaultCronTime")
         })
         yargs.option('run-oninit', {
             type: "boolean",
