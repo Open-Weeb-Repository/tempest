@@ -1,5 +1,5 @@
 import db from "../commons/db";
-import {IAnimeDetail, IAnimeListItem} from "myanimelist";
+import {IAnimeDetail, IAnimeListItem} from "myanimelist.d.ts";
 import { createHash } from "crypto"
 import {IHasTimeStamp} from "tempest.commons";
 

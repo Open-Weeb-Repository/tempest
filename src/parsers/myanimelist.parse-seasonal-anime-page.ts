@@ -1,4 +1,4 @@
-import {IAnimeListItem} from 'myanimelist';
+import {IAnimeListItem} from 'myanimelist.d.ts';
 
 export default function ($: CheerioStatic): IAnimeListItem[] {
     return $(".js-seasonal-anime")

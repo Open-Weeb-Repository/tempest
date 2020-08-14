@@ -1,4 +1,4 @@
-import {IAnimeDetail} from "myanimelist";
+import {IAnimeDetail} from "myanimelist.d.ts";
 
 interface ISidebarParser {
     [Key: string]: (value: string, out: IAnimeDetail,type: string, $ele: Cheerio) => void;

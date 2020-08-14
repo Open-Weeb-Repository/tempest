@@ -1,13 +1,13 @@
 import debug from "debug";
 import config from "config";
 import getpage from "./helpers/getpage";
-import * as MyAnimeList from 'myanimelist';
+import * as MyAnimeList from 'myanimelist.d.ts';
 import parseSeasonalAnimePage from './parsers/myanimelist.parse-seasonal-anime-page'
 import parseAnimeDetail from './parsers/myanimelist.parse-anime';
 import seriesRepo from "./repository/series";
 import chunkProcess from "./helpers/chunk-process";
 import projectJobsRepo from "./repository/project-jobs";
-import {SearchParam} from "project-jobs";
+import {SearchParam} from "project-jobs.d.ts";
 
 const log = debug('tempest:app');
 const logProcess = debug('tempest:app:process');

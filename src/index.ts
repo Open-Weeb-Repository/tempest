@@ -2,7 +2,7 @@ import yargs from "yargs";
 import {App} from "./app";
 import {CronJob} from "cron";
 import debug from 'debug';
-import {IStartArgs} from 'app.args'
+import {IStartArgs} from 'app.args.d.ts'
 import db from "./commons/db";
 
 const log = debug('tempest:main');

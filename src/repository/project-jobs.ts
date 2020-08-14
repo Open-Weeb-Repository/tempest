@@ -1,5 +1,5 @@
 import db from "../commons/db";
-import {IProjectJob, SearchParam} from "project-jobs";
+import {IProjectJob, SearchParam} from "project-jobs.d.ts";
 import {IHasCreatedAt} from "tempest.commons";
 
 export const projectJobs = db.get<IProjectJob & IHasCreatedAt>("projectScrapeJobs");
