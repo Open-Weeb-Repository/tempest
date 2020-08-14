@@ -6,6 +6,8 @@ import parseSeasonalAnimePage from './parsers/myanimelist.parse-seasonal-anime-p
 import parseAnimeDetail from './parsers/myanimelist.parse-anime';
 import seriesRepo from "./repository/series";
 import chunkProcess from "./helpers/chunk-process";
+import projectJobsRepo from "./repository/project-jobs";
+import {SearchParam} from "project-jobs";
 
 const log = debug('tempest:app');
 const logProcess = debug('tempest:app:process');
@@ -46,6 +48,13 @@ export class App {
         if (result.upserted) {
             /* new document created, add to jobs */
             logProcess("anime-%s: Upserted to db", anime.malUrl);
+            let malId = seriesRepo.generateId(anime);
+            let searchParam:SearchParam = [
+                animeDetail.title.mainTitle,
+                ...animeDetail.title.synonyms,
+                animeDetail.title.titleJp
+            ];
+            await projectJobsRepo.createJobs(malId, animeDetail.malType, searchParam);
             logProcess("anime-%s: active-project-parse job created!", anime.malUrl);
         }
     }
