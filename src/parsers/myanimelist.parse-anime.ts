@@ -75,6 +75,9 @@ sidebarParser["Broadcast:"] = (value, out) => {
 }
 
 sidebarParser["Producers:"] = (value, out) => {
+    if (value.trim().toLowerCase() === "none found, add some") {
+        return;
+    }
     out.producers = value.split(',').map(val => val.trim());
 }
 
