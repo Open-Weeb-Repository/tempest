@@ -1,8 +1,9 @@
 import db from "../commons/db";
 import {IAnimeDetail, IAnimeListItem} from "myanimelist";
 import { createHash } from "crypto"
+import {IHasTimeStamp} from "tempest.commons";
 
-export const series = db.get<IAnimeDetail>('series');
+export const series = db.get<IAnimeDetail & IHasTimeStamp>('series');
 series.createIndex("malId")
 
 export default {
@@ -23,7 +24,13 @@ export default {
         return series.update({
             malId: seriesData.malId
         }, {
-            $set: seriesData
+            $set: seriesData,
+            $currentDate: {
+                updatedAt: true
+            },
+            $setOnInsert: {
+                createdAt: new Date()
+            }
         }, {
             upsert: true
         });
