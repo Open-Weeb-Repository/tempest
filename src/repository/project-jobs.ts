@@ -15,7 +15,8 @@ export default {
                 searchParam,
                 n_fail: 0,
                 n_done: 0,
-                createdAt
+                createdAt,
+                state: 'active',
             }
         }));
     }
