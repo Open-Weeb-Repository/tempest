@@ -23,7 +23,7 @@ yargs
     .argv;
 
 function start(argv: IStartArgs) {
-    log('creating cronjob');
+    log('creating cronjob with %s', argv.crontime);
     new CronJob({
         cronTime: argv.crontime,
         onTick: () => once(),
@@ -37,12 +37,15 @@ function once() {
     const app = new App();
     return app.start()
         .then(() => {
+            log('process success');
             console.log((new Date()).toISOString() + '::Process Done');
         }).catch(err => {
+            log('process fail');
             console.error((new Date()).toISOString() + '::Process Error');
             console.error(err);
         }).finally(() => {
             if (db._state !== 'closed') {
+                log('closing DB');
                 return db.close();
             } else {
                 return;
