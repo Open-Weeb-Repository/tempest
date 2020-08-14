@@ -79,28 +79,28 @@ sidebarParser["Producers:"] = (value, out) => {
 }
 
 sidebarParser["Licensors:"] = (value, out) => {
-    if (value === "None found, add some") {
+    if (value.trim().toLowerCase() === "none found, add some") {
         return;
     }
     out.licensors = value.split(',').map(val => val.trim());
 }
 
 sidebarParser["Studios:"] = (value, out) => {
-    if (value === "None found, add some") {
+    if (value.trim().toLowerCase() === "none found, add some") {
         return;
     }
     out.studios = value.split(',').map(val => val.trim());
 }
 
 sidebarParser["Source:"] = (value, out) => {
-    if (value === "None found, add some") {
+    if (value.trim().toLowerCase() === "none found, add some") {
         return;
     }
     out.source = value;
 }
 
 sidebarParser["Genres:"] = (value, out) => {
-    if (value === "None found, add some") {
+    if (value.trim().toLowerCase() === "none found, add some") {
         return;
     }
     out.genres = value.split(',').map(genre => {
