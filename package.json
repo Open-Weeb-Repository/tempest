@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "nodemon -w ./src src/index.ts once",
     "build": "tsc",
-    "start": "node dist",
-    "start:once": "node dist once"
+    "start": "node tempest",
+    "start:once": "node tempest once"
   },
   "keywords": [],
   "author": "Bayu Setiawan",
