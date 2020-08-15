@@ -4,7 +4,9 @@ import { createHash } from "crypto"
 import {IHasTimeStamp} from "tempest.commons";
 
 export const series = db.get<IAnimeDetail & IHasTimeStamp>('series');
-series.createIndex("malId")
+series.createIndex("malId", {
+    unique: true
+})
 
 export default {
     getSeries(seriesItem: IAnimeListItem): Promise<any> {
