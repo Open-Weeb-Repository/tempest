@@ -25,12 +25,19 @@ export default function ($: CheerioStatic): IAnimeDetail {
         studios: [],
         synopsis: $("span[itemprop='description']").text(),
         title: {
-            mainTitle: $(".h1-title span[itemprop='name']").text(),
+            mainTitle: "",
             titleJp: undefined,
             synonyms: []
         },
         type: "anime",
         score: 0
+    }
+    const $title = $(".h1-title span[itemprop='name']");
+    const $engTitle = $title.find(".title-english");
+    obj.title.mainTitle = $title.text();
+    if ($engTitle.length > 0) {
+        obj.title.mainTitle = obj.title.mainTitle.replace($engTitle.text(),"");
+        obj.title.synonyms.push($engTitle.text());
     }
     const $sidebar = $("#content > table > tbody > tr > td:nth-child(1) > div");
     $sidebar.find("div").each(function (){
