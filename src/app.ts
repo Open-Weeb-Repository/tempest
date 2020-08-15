@@ -19,15 +19,16 @@ interface IAppOption {
 
 export class App {
     private readonly nProcessChunk: number;
+
     constructor(options: IAppOption = {}) {
         log('Creating app instance');
         this.nProcessChunk = options.nProcessChunk || parseInt(config.get('processChunkSize'), 10);
-        if (this.nProcessChunk < 1){
+        if (this.nProcessChunk < 1) {
             throw new Error('Number of process chunk must be larger than 0');
         }
     }
 
-    async start(){
+    async start() {
         log('Getting seasonal animes');
         const seasonalAnimes = await this.getSeasonalAnime();
         log('Processing %d seasonal anime', seasonalAnimes.length);
@@ -41,24 +42,27 @@ export class App {
         return parseSeasonalAnimePage($);
     }
 
-    async processAnime(anime: MyAnimeList.IAnimeListItem){
+    async processAnime(anime: MyAnimeList.IAnimeListItem) {
         logProcess("anime-%s: processing started", anime.malUrl);
         const animeDetail = await App.getAnimeData(anime);
         logProcess("anime-%s: Retreived from provider", anime.malUrl);
         /* save or create new */
-        const result = await seriesRepo.updateOrCreate(animeDetail) as any; // monk typing not match the return value
-        if (result.upserted) {
-            /* new document created, add to jobs */
-            logProcess("anime-%s: Upserted to db", anime.malUrl);
-            let malId = seriesRepo.generateId(anime);
-            let searchParam:SearchParam = [
-                animeDetail.title.mainTitle,
-                ...animeDetail.title.synonyms,
-                animeDetail.title.titleJp
-            ];
-            const providers = await projectProviderRepo.getProviderLazy('anime');
-            await projectJobsRepo.createJobs(providers, malId, animeDetail.malType, searchParam);
-            logProcess("anime-%s: %d active-project-parse job created!", anime.malUrl, providers.length);
+        await seriesRepo.updateOrCreate(animeDetail)
+        let malId = seriesRepo.generateId(anime);
+        let searchParam: SearchParam = [
+            animeDetail.title.mainTitle,
+            ...animeDetail.title.synonyms,
+            animeDetail.title.titleJp
+        ];
+
+        // check new provider for this job
+        const existingWorkerProviderNames = await projectJobsRepo.getAllWorkerNameByMalId(malId);
+        const allProviders = await projectProviderRepo.getProviderLazy('anime');
+        const newProviders = allProviders
+            .filter(val => !existingWorkerProviderNames.includes(val.workerJobName));
+        if (newProviders.length > 0) {
+            await projectJobsRepo.createJobs(newProviders, malId, animeDetail.malType, searchParam);
+            logProcess("anime-%s: %d active-project-parse job created!", anime.malUrl, newProviders.length);
         }
     }
 

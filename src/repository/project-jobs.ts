@@ -4,6 +4,9 @@ import {IHasCreatedAt} from "tempest.commons";
 import {ProjectProvider} from "project-providers";
 
 export const projectJobs = db.get<IProjectJob & IHasCreatedAt>("projectScrapeJobs");
+projectJobs.createIndex({
+    malId: 1
+});
 
 export default {
     createJobs(providers: ProjectProvider[],malId: string, type: string, searchParam: SearchParam){
@@ -19,5 +22,14 @@ export default {
                 state: 'active',
             }
         }));
+    },
+
+    async getAllWorkerNameByMalId(malId: string): Promise<string[]> {
+        const workers = await projectJobs.find({malId}, {
+            projection: {
+                provider: 1
+            }
+        })
+        return workers.map(worker => worker.provider);
     }
 }
